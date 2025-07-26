@@ -1,6 +1,5 @@
 import requests
 import json
-from EmotionDetection.emotion_detection import emotion_detector
 
 def emotion_detector(text_to_analyse):
     # URL of the sentiment analysis service
