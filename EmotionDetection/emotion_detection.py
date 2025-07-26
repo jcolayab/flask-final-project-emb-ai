@@ -30,19 +30,19 @@ def emotion_detector(text_to_analyse):
     dominant = -1
     if anger_score > dominant:
         dominant = anger_score
-        dominant_emotion = "anger_score"
+        dominant_emotion = "anger"
     if disgust_score > dominant:
         dominant = disgust_score
-        dominant_emotion = "disgust_score"
+        dominant_emotion = "disgust"
     if fear_score > dominant:
         dominant = fear_score
-        dominant_emotion = "fear_score"
+        dominant_emotion = "fear"
     if joy_score > dominant:
         dominant = joy_score
-        dominant_emotion = "joy_score"
+        dominant_emotion = "joy"
     if sadness_score > dominant:
         dominant = sadness_score
-        dominant_emotion = "sadness_score"
+        dominant_emotion = "sadness"
     
     
     return {
