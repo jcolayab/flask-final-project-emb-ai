@@ -2,32 +2,27 @@ import requests
 import json
 
 def emotion_detector(text_to_analyse):
-    # URL of the sentiment analysis service
+    """
+        emotion detector
+    """
     URL = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
-
-    # Custom header specifying the model ID for the sentiment analysis service
     Headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
-
-     # Constructing the request payload in the expected format
     payload = { "raw_document": { "text": text_to_analyse } }
     response = requests.post(URL, json=payload, headers=Headers)
 
-    # Parsing the JSON response from the API
     formatted_response = json.loads(response.text)
-
-    #process theresponse
     tmp1 = formatted_response['emotionPredictions']
     tmp2 = tmp1[0]
     
-    # Extracting emotions label and score from the response
     anger_score = tmp2['emotion']['anger']
     disgust_score = tmp2['emotion']['disgust']
     fear_score = tmp2['emotion']['fear']
     joy_score = tmp2['emotion']['joy']
     sadness_score = tmp2['emotion']['sadness']
-
     dominant_score = "dominant_score"
+
     dominant = -1
+    dominant_emotion = None
     if anger_score > dominant:
         dominant = anger_score
         dominant_emotion = "anger"
@@ -44,12 +39,7 @@ def emotion_detector(text_to_analyse):
         dominant = sadness_score
         dominant_emotion = "sadness"
     
+    if response.status_code == 400:
+        return { 'anger': None, 'disgust': None, 'fear': None, 'joy': None, 'sadness': None, 'dominant_emotion': None}     
     
-    return {
-            'anger': anger_score, 
-            'disgust': disgust_score, 
-            'fear': fear_score, 
-            'joy': joy_score, 
-            'sadness': sadness_score, 
-            'dominant_emotion': dominant_emotion 
-    }
+    return { 'anger': anger_score, 'disgust': disgust_score, 'fear': fear_score, 'joy': joy_score, 'sadness': sadness_score, 'dominant_emotion': dominant_emotion }
